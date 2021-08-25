@@ -23,7 +23,7 @@ describe('Snake', () => {
         });
     });
 
-    describe('Moving', () => {
+    describe('Turning', () => {
         describe('Up', () => {
             test('for one section body', () => {
                 const snake = new Snake([CellDirection.Left]);
@@ -38,7 +38,7 @@ describe('Snake', () => {
                 const snake = new Snake([CellDirection.Left, CellDirection.Left, CellDirection.Down]);
 
                 const result = snake.up().body;
-                const expected = [CellDirection.Up, CellDirection.Left, CellDirection.Left];
+                const expected = [CellDirection.Up, CellDirection.Left, CellDirection.Down];
 
                 expect(result).toStrictEqual(expected)
             });
@@ -73,7 +73,7 @@ describe('Snake', () => {
             });
 
             test('for long body', () => {
-                const snake = new Snake([CellDirection.Up, CellDirection.Left, CellDirection.Down]);
+                const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Left]);
 
                 const result = snake.right().body;
                 const expected = [CellDirection.Right, CellDirection.Up, CellDirection.Left];
@@ -114,7 +114,7 @@ describe('Snake', () => {
                 const snake = new Snake([CellDirection.Right, CellDirection.Right, CellDirection.Up]);
 
                 const result = snake.down().body;
-                const expected = [CellDirection.Down, CellDirection.Right, CellDirection.Right];
+                const expected = [CellDirection.Down, CellDirection.Right, CellDirection.Up];
 
                 expect(result).toStrictEqual(expected)
             });
@@ -152,7 +152,7 @@ describe('Snake', () => {
                 const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Right]);
 
                 const result = snake.left().body;
-                const expected = [CellDirection.Left, CellDirection.Up, CellDirection.Up];
+                const expected = [CellDirection.Left, CellDirection.Up, CellDirection.Right];
 
                 expect(result).toStrictEqual(expected)
             });

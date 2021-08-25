@@ -1,7 +1,8 @@
 import { Snake } from './snake';
 import { CellDirection } from './cell-direction';
-import _ from 'declarray';
+import _, { IEqualityComparator } from 'declarray';
 import { GameOver } from '../errors/game-over';
+import { Random } from 'essents';
 
 declare type Position = [number, number];
 
@@ -11,6 +12,26 @@ interface AreaArgs {
     foodCells?: Position[];
 }
 
+class PositionComparator implements IEqualityComparator<Position> {
+    compare(first: Position, second: Position): number {
+        if (first[0] > second[0]) {
+            return 1;
+        } else if (first[0] < second[0]) {
+            return -1;
+        } else {
+            return first[1] - second[1];
+        }
+    }
+
+    equals(first: Position, second: Position): boolean {
+        return first[0] === second[0] && first[1] === second[1];
+    }
+
+    getHashCode(entity: Position): number {
+        return (entity[0] + 1024) * (entity[1] + 512)
+    }
+}
+
 export class Area {
     public readonly height: number;
     public readonly width: number;
@@ -18,9 +39,11 @@ export class Area {
     public readonly snake: Snake;
 
     public readonly snakeCells: Position[];
-    public readonly foodCells: Position[];
+    public foodCells: Position[];
 
     public readonly snakePosition: Position;
+
+    private readonly rnd: Random = new Random();
 
     private get snakeHead(): CellDirection {
         return this.snake.head;
@@ -40,7 +63,7 @@ export class Area {
 
         this.snakeCells = this.getSnakeCells();
 
-        this.foodCells = args?.foodCells ?? [];
+        this.foodCells = args?.foodCells ?? [this.generateRandomFreeCell()];
     }
 
     public tick(): Area {
@@ -54,11 +77,92 @@ export class Area {
             throw new GameOver('You did eat yourself');
         }
 
-        return undefined;
+        this.snake.move();
+
+        if (this.isFoodCell(nextCell)) {
+            this.snake.grow();
+
+            this.foodCells = _(this.foodCells).where((cell) => !new PositionComparator().equals(nextCell, cell)).toArray();
+        }
+
+        return new Area(
+            this.height,
+            this.width,
+            {
+                snake: this.snake,
+                snakePosition: nextCell,
+                foodCells: this.foodCells,
+            }
+        )
     }
 
-    public isSnakeCell([x, y]: Position): boolean {
-        return  _(this.snakeCells).any(([s_X, s_Y]) => s_X === x && s_Y === y);
+    public turnUp(): Area {
+        return new Area(
+            this.height,
+            this.width,
+            {
+                snake: this.snake.up(),
+                snakePosition: this.snakePosition,
+                foodCells: this.foodCells,
+            }
+        )
+    }
+
+    public turnRight(): Area {
+        return new Area(
+            this.height,
+            this.width,
+            {
+                snake: this.snake.right(),
+                snakePosition: this.snakePosition,
+                foodCells: this.foodCells,
+            }
+        )
+    }
+
+    public turnDown(): Area {
+        return new Area(
+            this.height,
+            this.width,
+            {
+                snake: this.snake.down(),
+                snakePosition: this.snakePosition,
+                foodCells: this.foodCells,
+            }
+        )
+    }
+
+    public turnLeft(): Area {
+        return new Area(
+            this.height,
+            this.width,
+            {
+                snake: this.snake.left(),
+                snakePosition: this.snakePosition,
+                foodCells: this.foodCells,
+            }
+        )
+    }
+
+    public isSnakeCell(cell: Position): boolean {
+        return  _(this.snakeCells).contains(cell, new PositionComparator());
+    }
+
+    public isFoodCell(cell: Position): boolean {
+        return  _(this.foodCells).contains(cell, new PositionComparator());
+    }
+
+    public generateRandomFreeCell(): Position {
+        let cell: Position = null;
+
+        do {
+            const x = this.rnd.next(this.width);
+            const y = this.rnd.next(this.height);
+
+            cell = [x, y];
+        } while (this.isSnakeCell(cell))
+
+        return cell;
     }
 
     public checkBounds(position: Position): boolean {

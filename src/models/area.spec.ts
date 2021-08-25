@@ -221,6 +221,38 @@ describe('Area', () => {
         })
     });
 
+    describe('isFoodCell', () => {
+        let area: Area = null;
+
+        beforeEach(() => {
+            area = new Area(20, 20, { snakePosition: [0, 0], foodCells: [[1, 1]] });
+        })
+
+        test('check free cell', () => {
+            const result = area.isFoodCell([3, 3]);
+            const expected = false;
+
+            expect(result).toBe(expected);
+        })
+
+        test('check food cell', () => {
+            const result = area.isFoodCell([1, 1]);
+            const expected = true;
+
+            expect(result).toBe(expected);
+        })
+    });
+
+    test('generateRandomFreeCell', () => {
+        const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Up, CellDirection.Left, CellDirection.Left, CellDirection.Down, CellDirection.Right]);
+
+        const area = new Area(20, 20, { snake, snakePosition: [0, 0] });
+
+        const result = area.generateRandomFreeCell();
+
+        expect(result).toBeTruthy();
+    })
+
     describe('tick', () => {
         describe('Game over', () => {
             test('break beyond', () => {
@@ -236,6 +268,19 @@ describe('Area', () => {
 
                 expect(() => area.tick()).toThrowError(new GameOver('You did eat yourself'));
             });
+        });
+    });
+
+    describe('turning', () => {
+        test('turn right', () => {
+            const snake = new Snake([CellDirection.Up,]);
+            const area = new Area(21, 21, { snake, snakePosition: [10, 10] });
+
+            const result = area.turnRight();
+
+            expect(result.snake.head).toBe(CellDirection.Right);
+            expect(result.snake.body.length).toBe(1);
+            expect(result.snakePosition).toStrictEqual(area.snakePosition);
         });
     });
 });

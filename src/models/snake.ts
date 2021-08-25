@@ -29,25 +29,25 @@ export class Snake {
     public up(): Snake {
         if (this.isVertical) {
             return this;
-        } else return this.moveSnake(CellDirection.Up)
+        } else return this.turnSnake(CellDirection.Up)
     }
 
     public right(): Snake {
         if (this.isHorizontal) {
             return this;
-        } else return this.moveSnake(CellDirection.Right)
+        } else return this.turnSnake(CellDirection.Right)
     }
 
     public down(): Snake {
         if (this.isVertical) {
             return this;
-        } else return this.moveSnake(CellDirection.Down)
+        } else return this.turnSnake(CellDirection.Down)
     }
 
     public left(): Snake {
         if (this.isHorizontal) {
             return this;
-        } else return this.moveSnake(CellDirection.Left)
+        } else return this.turnSnake(CellDirection.Left)
     }
 
     public grow(): Snake {
@@ -60,9 +60,8 @@ export class Snake {
         return new Snake(newBody);
     }
 
-    private moveSnake(direction: CellDirection): Snake {
-        this.body.pop()
-        const newBody = [direction, ...this.body];
+    private turnSnake(direction: CellDirection): Snake {
+        const newBody = _(this.body).skip(1).prepend(direction).toArray();
         return new Snake(newBody);
     }
 }
