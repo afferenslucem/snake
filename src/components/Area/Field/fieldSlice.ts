@@ -1,13 +1,17 @@
-import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../../app/store';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../../app/store';
 import { Area } from '../../../models/area';
 
 export interface FieldState {
     area: Area,
+    gameStarted: boolean,
+    speed: number,
 }
 
 const initialState: FieldState = {
     area: new Area(31, 31),
+    gameStarted: false,
+    speed: 1,
 };
 
 
@@ -32,14 +36,24 @@ export const fieldSlice = createSlice({
         tick: (state) => {
             state.area = state.area.tick();
         },
+        startGame: (state) => {
+            state.gameStarted = true;
+        },
+        changeSpeed: (state, action: PayloadAction<number>) => {
+            state.speed = action.payload;
+        }
     },
 });
 
 // Actions block
-export const { turnUp, turnRight, turnDown, turnLeft, tick } = fieldSlice.actions;
+export const { turnUp, turnRight, turnDown, turnLeft, tick, startGame } = fieldSlice.actions;
 
 // Selectors
 export const selectArea = (state: RootState) => state.field.area;
+
+export const selectGameStarted = (state: RootState) => state.field.gameStarted;
+
+export const selectSpeed = (state: RootState) => state.field.gameStarted;
 
 export const selectIsSnakeCell = createSelector(
     selectArea,

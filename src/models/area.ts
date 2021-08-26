@@ -45,8 +45,11 @@ export class Area {
 
     private readonly rnd: Random = new Random();
 
-    private get snakeHead(): CellDirection {
+    private get snakeHeadDirection(): CellDirection {
         return this.snake.head;
+    }
+    private get snakeTail(): Position {
+        return _(this.snakeCells).last();
     }
 
     public constructor(height: number, width: number);
@@ -63,7 +66,7 @@ export class Area {
 
         this.snakeCells = this.getSnakeCells();
 
-        this.foodCells = args?.foodCells ?? [this.generateRandomFreeCell()];
+        this.foodCells = args?.foodCells?.length ? args.foodCells : [this.generateRandomFreeCell()];
     }
 
     public tick(): Area {
@@ -73,14 +76,14 @@ export class Area {
             throw new GameOver('You break area beyond');
         }
 
-        if (this.isSnakeCell(nextCell)) {
+        if (this.isSnakeCell(nextCell) && !new PositionComparator().equals(nextCell, this.snakeTail)) {
             throw new GameOver('You did eat yourself');
         }
 
-        this.snake.move();
+        let snake = this.snake.move();
 
         if (this.isFoodCell(nextCell)) {
-            this.snake.grow();
+            snake = snake.grow();
 
             this.foodCells = _(this.foodCells).where((cell) => !new PositionComparator().equals(nextCell, cell)).toArray();
         }
@@ -89,7 +92,7 @@ export class Area {
             this.height,
             this.width,
             {
-                snake: this.snake,
+                snake: snake,
                 snakePosition: nextCell,
                 foodCells: this.foodCells,
             }
@@ -179,7 +182,7 @@ export class Area {
     public getNextSnakePosition(): Position {
         const coord = this.snakePosition;
 
-        switch (this.snakeHead) {
+        switch (this.snakeHeadDirection) {
             case CellDirection.Up: return [coord[0], coord[1] - 1];
             case CellDirection.Right: return [coord[0] + 1, coord[1]];
             case CellDirection.Down: return [coord[0], coord[1] + 1];

@@ -1,0 +1,106 @@
+.app-controller {
+  display: grid;
+
+  grid-template-columns: repeat(3, 5vmin);
+  grid-template-rows: repeat(3, 5vmin);
+
+  .control {
+    margin-top: 0;
+    border: 0.75rem solid #312f2f;
+
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .arrow {
+    transform: rotate(45deg);
+  }
+
+  & &__top {
+    grid-row: 1;
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    border-bottom-width: 0;
+    border-right-width: 0;
+  }
+
+  & &__right {
+    grid-row: 2;
+    grid-column-start: 3;
+    grid-column-end: 4;
+
+    border-left-width: 0;
+    border-bottom-width: 0;
+  }
+
+  & &__bottom {
+    grid-row: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    border-left-width: 0;
+    border-top-width: 0;
+  }
+
+  & &__left {
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    border-right-width: 0;
+    border-top-width: 0;
+  }
+
+  & &__cursor {
+    border-radius: 0.75rem;
+  }
+
+  & &__cursor-placeholder {
+    margin-top: 0;
+
+    grid-row: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+}
+
+.app-controller.up {
+  .app-controller__top {
+    border-color: orange;
+  }
+
+  .app-controller__cursor {
+    transform: translate(0, -0.75rem);
+  }
+}
+
+.app-controller.down {
+  .app-controller__bottom {
+    border-color: orange;
+  }
+
+  .app-controller__cursor {
+    transform: translate(0, 0.75rem);
+  }
+}
+
+.app-controller.right {
+  .app-controller__right {
+    border-color: orange;
+  }
+
+  .app-controller__cursor {
+    transform: translate(0.75rem, 0);
+  }
+}
+
+.app-controller.left {
+  .app-controller__left {
+    border-color: orange;
+  }
+
+  .app-controller__cursor {
+    transform: translate(-0.75rem, 0);
+  }
+}

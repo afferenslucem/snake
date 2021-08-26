@@ -1,5 +1,5 @@
-import _ from 'declarray';
 import React from 'react';
+import _ from 'declarray';
 import Cell from '../Cell/Cell';
 import './Field.scss';
 
