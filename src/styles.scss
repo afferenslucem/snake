@@ -19,13 +19,13 @@ body * + * {
 .App {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 
   height: 100vh;
 
   .app-field {
-    padding-top: 1rem;
+    margin: 1rem 0;
   }
 
   .start-game {
@@ -37,6 +37,6 @@ body * + * {
   .app-controller {
     flex: 0 0 auto;
 
-    margin-top: -1rem;
+    margin-top: 4rem
   }
 }
