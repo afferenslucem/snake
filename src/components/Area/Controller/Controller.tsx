@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import './Controller.scss';
 import classNames from 'classnames';
 import { fromEvent, merge } from 'rxjs';

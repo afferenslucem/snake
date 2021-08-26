@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import areaReducer from '../components/Area/Field/fieldSlice';
 
 export const store = configureStore({
