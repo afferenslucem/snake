@@ -79,7 +79,7 @@ const keyDown$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
 
 const controllerChange$ = new Subject<CellDirection>();
 
-const turn$ = merge(keyDown$, controllerChange$).pipe(debounceTime(200), distinctUntilChanged((first, second) => first === second));
+const turn$ = merge(keyDown$, controllerChange$).pipe(distinctUntilChanged((first, second) => first === second));
 
 function App() {
     useEffect(() => {
