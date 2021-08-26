@@ -1,0 +1,9 @@
+@import "styles/variables";
+
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+body * + * {
+  margin-top: 1.5em;
+}

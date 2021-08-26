@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Sans:wght@400;700&family=Open+Sans:wght@300;400;700&family=Roboto+Slab:wght@100;300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,400&display=swap');
+
+:root {
+  --cell-size: 2vmin;
+
+  --cell-color: #d7d7d7;
+  --cell-food-color: #42bd42;
+  --cell-snake-color: #312f2f;
+
+  --regular-font: Roboto, 'Open Sans', sans-serif;
+  --header-font: 'Roboto Slab', 'Lora', 'Noro Sans', serif;
+
+  font-family: var(--regular-font);
+  box-sizing: border-box;
+  font-weight: normal;
+}

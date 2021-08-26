@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Snake from './Snake';
+import Field from './components/Area/Field/Field';
 
 function App() {
   return (
     <div className="App">
-      <Snake />
+      <Field />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import areaReducer, { AreaState, tick, turnDown, turnLeft, turnRight, turnUp } from './areaSlice';
+import areaReducer, { FieldState, tick, turnDown, turnLeft, turnRight, turnUp } from './fieldSlice';
 import { Area } from '../../../models/area';
 import { CellDirection } from '../../../models/cell-direction';
 import { Snake } from '../../../models/snake';
@@ -11,7 +11,7 @@ describe('counter reducer', () => {
     });
 
     test('should handle turnUp', () => {
-        const initialState: AreaState = {
+        const initialState: FieldState = {
             area: new Area(11, 11, { snake: new Snake([CellDirection.Left]) }),
         };
 
@@ -20,7 +20,7 @@ describe('counter reducer', () => {
     });
 
     test('should handle turnRight', () => {
-        const initialState: AreaState = {
+        const initialState: FieldState = {
             area: new Area(11, 11),
         };
 
@@ -29,7 +29,7 @@ describe('counter reducer', () => {
     });
 
     test('should handle turnDown', () => {
-        const initialState: AreaState = {
+        const initialState: FieldState = {
             area: new Area(11, 11, { snake: new Snake([CellDirection.Left]) }),
         };
 
@@ -38,7 +38,7 @@ describe('counter reducer', () => {
     });
 
     test('should handle turnLeft', () => {
-        const initialState: AreaState = {
+        const initialState: FieldState = {
             area: new Area(11, 11 ),
         };
 
@@ -47,7 +47,7 @@ describe('counter reducer', () => {
     });
 
     test('should handle tick', () => {
-        const initialState: AreaState = {
+        const initialState: FieldState = {
             area: new Area(11, 11 ),
         };
 
