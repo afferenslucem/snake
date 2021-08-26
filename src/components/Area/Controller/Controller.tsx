@@ -1,6 +1,8 @@
 import React, { MouseEvent } from 'react';
 import './Controller.scss';
 import classNames from 'classnames';
+import { fromEvent, merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 interface State {
     x: number;
@@ -16,6 +18,7 @@ interface Props {
 }
 
 export default class Controller extends React.Component<Props, State> {
+
     constructor(props: Props) {
         super(props);
 
@@ -31,8 +34,9 @@ export default class Controller extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        document.addEventListener('mouseup', (e) => this.onMouseUp(e as any));
-        document.addEventListener('mousemove', (e) => this.onMouseMove(e as any));
+        fromEvent(document, 'mouseup').subscribe((e) => this.onMouseUp());
+
+        fromEvent(document, 'mousemove').pipe(debounceTime(100)).subscribe((e) => this.onMouseMove(e as any));
     }
 
     public onMouseDown(e: MouseEvent) {
@@ -66,7 +70,7 @@ export default class Controller extends React.Component<Props, State> {
         }
     }
 
-    public onMouseUp(e: MouseEvent) {
+    public onMouseUp() {
         this.setState(() => ({ x: null, y: null, direction: null }))
     }
 

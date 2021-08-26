@@ -13,6 +13,9 @@ import {
 import { Repeater } from 'essents';
 import { store } from './app/store';
 import Controller from './components/Area/Controller/Controller';
+import { fromEvent, merge, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { CellDirection } from './models/cell-direction';
 
 const defaultInterval = 750;
 
@@ -55,24 +58,40 @@ function setRepeater(started: boolean, period = defaultInterval): () => void {
     }
 }
 
+const keyDown$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
+    debounceTime(100),
+    map(item => item.key),
+    map(item => {
+        switch (item) {
+            case "ArrowUp": return CellDirection.Up;
+            case "ArrowDown": return CellDirection.Down;
+            case "ArrowRight": return CellDirection.Right;
+            case "ArrowLeft": return CellDirection.Left;
+        }
+    }),
+);
+
+const controllerChange$ = new Subject<CellDirection>();
+
+const turn$ = merge(keyDown$, controllerChange$).pipe(debounceTime(200), distinctUntilChanged((first, second) => first === second));
 
 function App() {
     useEffect(() => {
-        document.addEventListener('keydown', (event: KeyboardEvent) => {
-            switch (event.key) {
-                case "ArrowUp": {
+        turn$.subscribe((direction: CellDirection) => {
+            switch (direction) {
+                case CellDirection.Up: {
                     store.dispatch(turnUp());
                     break;
                 }
-                case "ArrowDown": {
+                case CellDirection.Down: {
                     store.dispatch(turnDown());
                     break;
                 }
-                case "ArrowRight": {
+                case CellDirection.Right: {
                     store.dispatch(turnRight());
                     break;
                 }
-                case "ArrowLeft": {
+                case CellDirection.Left: {
                     store.dispatch(turnLeft());
                     break;
                 }
@@ -94,10 +113,10 @@ function App() {
             </div>
             <button onClick={() => dispatch(startGame())}>Start</button>
             <Controller
-                onDownMove={() => dispatch(turnDown())}
-                onLeftMove={() => dispatch(turnLeft())}
-                onUpMove={() => dispatch(turnUp())}
-                onRightMove={() => dispatch(turnRight())}
+                onDownMove={() => controllerChange$.next(CellDirection.Down)}
+                onLeftMove={() => controllerChange$.next(CellDirection.Left)}
+                onUpMove={() => controllerChange$.next(CellDirection.Up)}
+                onRightMove={() => controllerChange$.next(CellDirection.Right)}
             />
         </div>
     );
