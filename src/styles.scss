@@ -4,6 +4,39 @@
   box-sizing: inherit;
 }
 
+body {
+  margin: 0;
+}
+
 body * + * {
   margin-top: 1.5em;
+}
+
+#root {
+  margin-top: 0;
+}
+
+.App {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 100vh;
+
+  .app-field {
+    margin-top: 1rem;
+  }
+
+  .start-game {
+    align-self: stretch;
+    padding: 0.5rem;
+    margin: 1rem 1rem;
+  }
+
+  .app-controller {
+    flex: 0 0 auto;
+
+    margin-bottom: 1rem;
+  }
 }

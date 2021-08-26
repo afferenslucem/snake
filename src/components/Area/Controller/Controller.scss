@@ -1,8 +1,12 @@
 .app-controller {
+  position: relative;
+  left: 5vmin;
+  top: 5vmin;
+
   display: grid;
 
-  grid-template-columns: repeat(3, 5vmin);
-  grid-template-rows: repeat(3, 5vmin);
+  grid-template-columns: repeat(3, 15vmin);
+  grid-template-rows: repeat(3, 15vmin);
 
   .control {
     margin-top: 0;

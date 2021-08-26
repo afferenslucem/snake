@@ -22,6 +22,7 @@ const defaultInterval = 750;
 function selectLength(): number {
     return store.getState().field.area.snake.body.length;
 }
+
 function selectSpeed(): number {
     return store.getState().field.speed;
 }
@@ -44,7 +45,7 @@ function setRepeater(started: boolean, period = defaultInterval): () => void {
                 if (speed !== newSpeed) {
                     repeater.kill();
 
-                    setRepeater(started,Math.pow(0.9, newSpeed) * defaultInterval);
+                    setRepeater(started, Math.pow(0.9, newSpeed) * defaultInterval);
                 }
 
                 store.dispatch(tick())
@@ -54,7 +55,8 @@ function setRepeater(started: boolean, period = defaultInterval): () => void {
 
         return () => repeater.kill();
     } else {
-        return () => {};
+        return () => {
+        };
     }
 }
 
@@ -63,10 +65,14 @@ const keyDown$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
     map(item => item.key),
     map(item => {
         switch (item) {
-            case "ArrowUp": return CellDirection.Up;
-            case "ArrowDown": return CellDirection.Down;
-            case "ArrowRight": return CellDirection.Right;
-            case "ArrowLeft": return CellDirection.Left;
+            case "ArrowUp":
+                return CellDirection.Up;
+            case "ArrowDown":
+                return CellDirection.Down;
+            case "ArrowRight":
+                return CellDirection.Right;
+            case "ArrowLeft":
+                return CellDirection.Left;
         }
     }),
 );
@@ -108,10 +114,17 @@ function App() {
 
     return (
         <div className="App">
-            <div>
-                <Field/>
-            </div>
-            <button onClick={() => dispatch(startGame())}>Start</button>
+            <Field/>
+            {
+                !started ? (
+                    <button
+                        className="start-game"
+                        onClick={() => dispatch(startGame())}
+                    >
+                        Start
+                    </button>
+                ) : null
+            }
             <Controller
                 onDownMove={() => controllerChange$.next(CellDirection.Down)}
                 onLeftMove={() => controllerChange$.next(CellDirection.Left)}

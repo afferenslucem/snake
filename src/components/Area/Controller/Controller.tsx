@@ -34,26 +34,34 @@ export default class Controller extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        fromEvent(document, 'mouseup').subscribe((e) => this.onMouseUp());
+        merge(
+            fromEvent(document, 'mouseup'),
+            fromEvent(document, 'touchend'),
+        ).subscribe((e) => this.onMouseUp());
 
-        fromEvent(document, 'mousemove').pipe(debounceTime(100)).subscribe((e) => this.onMouseMove(e as any));
+        merge(
+            fromEvent(document, 'mousemove'),
+            fromEvent(document, 'touchmove'),
+        ).pipe(debounceTime(100)).subscribe((e) => this.onMouseMove(e as any));
     }
 
-    public onMouseDown(e: MouseEvent) {
-        this.setState(() => ({ x: e.screenX, y: e.screenY }))
+    public onMouseDown(e: any) {
+        const x = e.screenX ?? e.touches[0].screenX
+        const y = e.screenY ?? e.touches[0].screenY
+
+        this.setState(() => ({ x, y }))
     }
 
-    public onMouseMove(e: MouseEvent) {
+    public onMouseMove(e: any) {
         const { x, y } = this.state;
 
         if (!x || !y) return;
 
-        const minDiff = 5;
+        const screenX = e.screenX ?? e.touches[0].screenX
+        const screenY = e.screenY ?? e.touches[0].screenY
 
-        const xDiff = x - e.screenX;
-        const yDiff = y - e.screenY;
-
-        if (xDiff < minDiff && yDiff < minDiff) return;
+        const xDiff = x - screenX;
+        const yDiff = y - screenY;
 
         if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff > 0) {
             this.props.onLeftMove();
@@ -78,17 +86,16 @@ export default class Controller extends React.Component<Props, State> {
         return (
             <div
                 className={classNames("app-controller", this.state.direction)}
-                onMouseMove={this.onMouseMove}
-                onMouseUp={this.onMouseUp}
             >
-                <div className="app-controller__top arrow control"></div>
-                <div className="app-controller__right arrow control"></div>
-                <div className="app-controller__bottom arrow control"></div>
-                <div className="app-controller__left arrow control"></div>
+                <div className="app-controller__top arrow control"> </div>
+                <div className="app-controller__right arrow control"> </div>
+                <div className="app-controller__bottom arrow control"> </div>
+                <div className="app-controller__left arrow control"> </div>
                 <div className="app-controller__cursor-placeholder">
                     <div className="app-controller__cursor control"
                          onMouseDown={this.onMouseDown}
-                    ></div>
+                         onTouchStart={this.onMouseDown}
+                    > </div>
                 </div>
             </div>
         );
