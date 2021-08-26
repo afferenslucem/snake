@@ -123,14 +123,15 @@ function App() {
                     >
                         Start
                     </button>
-                ) : null
+                ) : (
+                    <Controller
+                        onDownMove={() => controllerChange$.next(CellDirection.Down)}
+                        onLeftMove={() => controllerChange$.next(CellDirection.Left)}
+                        onUpMove={() => controllerChange$.next(CellDirection.Up)}
+                        onRightMove={() => controllerChange$.next(CellDirection.Right)}
+                    />
+                )
             }
-            <Controller
-                onDownMove={() => controllerChange$.next(CellDirection.Down)}
-                onLeftMove={() => controllerChange$.next(CellDirection.Left)}
-                onUpMove={() => controllerChange$.next(CellDirection.Up)}
-                onRightMove={() => controllerChange$.next(CellDirection.Right)}
-            />
         </div>
     );
 }
