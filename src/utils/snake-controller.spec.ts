@@ -1,9 +1,11 @@
 import sinon from 'sinon';
-import { store } from '../app/store';
 import Sinon from 'sinon';
+import { store } from '../app/store';
 import { SnakeController } from './snake-controller';
 import { fireEvent } from '@testing-library/react';
 import { turnDown, turnLeft, turnRight, turnUp } from '../components/Area/Field/field-slice';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 
 describe('SnakeController', () => {
@@ -98,6 +100,16 @@ describe('SnakeController', () => {
 
             controller.turnLeft();
         });
+    });
+
+    test('should distinct events', (done) => {
+        of(null).pipe(delay(500)).subscribe(() => {
+            expect(dispatchSpy.calledOnceWith(turnLeft())).toBeTruthy();
+            done();
+        });
+
+        controller.turnLeft();
+        controller.turnLeft();
     });
 
     afterEach(async () => {

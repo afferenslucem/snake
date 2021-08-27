@@ -1,4 +1,4 @@
-import { fromEvent, merge, Observable, Subject, Subscribable, Subscription } from 'rxjs';
+import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { CellDirection } from '../models/cell-direction';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { turnDown, turnLeft, turnRight, turnUp } from '../components/Area/Field/field-slice';
