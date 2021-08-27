@@ -9,6 +9,7 @@ import { GameOver } from '../errors/game-over';
 describe('GameRunner', () => {
     let dispatchSpy: Sinon.SinonStub<any> = null;
     let runner: GameRunner = null;
+
     beforeEach(() => {
         runner = new GameRunner();
         dispatchSpy = sinon.stub(store, 'dispatch');

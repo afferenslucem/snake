@@ -66,6 +66,8 @@ export class Area {
 
         this.snakeCells = this.getSnakeCells();
 
+
+
         this.foodCells = args?.foodCells?.length ? args.foodCells : [this.generateRandomFreeCell()];
     }
 
@@ -80,13 +82,15 @@ export class Area {
             throw new GameOver('You did eat yourself');
         }
 
-        let snake = this.snake.move();
+        let snake = this.snake;
 
         if (this.isFoodCell(nextCell)) {
             snake = snake.grow();
 
             this.foodCells = _(this.foodCells).where((cell) => !new PositionComparator().equals(nextCell, cell)).toArray();
         }
+
+        snake = snake.move();
 
         return new Area(
             this.height,

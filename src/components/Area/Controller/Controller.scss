@@ -68,6 +68,12 @@
   }
 }
 
+@media screen and (min-width: 728px) {
+  .app-controller {
+    display: none;
+  }
+}
+
 .app-controller.up {
   .app-controller__top {
     border-color: orange;
