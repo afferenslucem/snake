@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'declarray';
 import Cell from '../Cell/Cell';
-import './Field.scss';
+import './field.scss';
 
 const renderArray = _.range(0, 30).select(() => _.range(0, 30).toArray()).toArray();
 

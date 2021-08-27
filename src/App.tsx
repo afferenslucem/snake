@@ -1,64 +1,16 @@
 import React, { useEffect } from 'react';
-import Field from './components/Area/Field/Field';
-import { useAppDispatch, useAppSelector } from './app/hooks';
-import {
-    selectGameStarted,
-    startGame,
-    tick,
-    turnDown,
-    turnLeft,
-    turnRight,
-    turnUp
-} from './components/Area/Field/fieldSlice';
-import { Repeater } from 'essents';
+import Field from './components/Area/Field/field';
+import { useAppSelector } from './app/hooks';
+import { turnDown, turnLeft, turnRight, turnUp } from './components/Area/Field/field-slice';
 import { store } from './app/store';
 import Controller from './components/Area/Controller/Controller';
 import { fromEvent, merge, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CellDirection } from './models/cell-direction';
+import { selectGameOvered, selectGameStarted } from './components/Area/Field/game-slice';
+import { GameRunner } from './utils/game-runner';
 
-const defaultInterval = 750;
-
-function selectLength(): number {
-    return store.getState().field.area.snake.body.length;
-}
-
-function selectSpeed(): number {
-    return store.getState().field.speed;
-}
-
-function chooseSpeed() {
-    const length = selectLength()
-
-    return 1 + ((length / 4) | 0);
-}
-
-let repeater: Repeater = null;
-
-function setRepeater(started: boolean, period = defaultInterval): () => void {
-    if (started) {
-        repeater = new Repeater(
-            () => {
-                const speed = selectSpeed();
-                const newSpeed = chooseSpeed();
-
-                if (speed !== newSpeed) {
-                    repeater.kill();
-
-                    setRepeater(started, Math.pow(0.9, newSpeed) * defaultInterval);
-                }
-
-                store.dispatch(tick())
-            },
-            period
-        ).start();
-
-        return () => repeater.kill();
-    } else {
-        return () => {
-        };
-    }
-}
+const gameRunner = new GameRunner();
 
 const keyDown$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
     debounceTime(100),
@@ -106,12 +58,7 @@ function App() {
     });
 
     const started = useAppSelector(selectGameStarted);
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        return setRepeater(started);
-    });
-
+    const gameOver = useAppSelector(selectGameOvered);
     return (
         <div className="App">
             <Field/>
@@ -119,7 +66,10 @@ function App() {
                 !started ? (
                     <button
                         className="start-game"
-                        onClick={() => dispatch(startGame())}
+                        onClick={() => {
+                            gameRunner.init();
+                            gameRunner.run();
+                        }}
                     >
                         Start
                     </button>
@@ -131,6 +81,11 @@ function App() {
                         onRightMove={() => controllerChange$.next(CellDirection.Right)}
                     />
                 )
+            }
+            {
+                gameOver ?
+                    <span>{gameOver}</span> :
+                    null
             }
         </div>
     );

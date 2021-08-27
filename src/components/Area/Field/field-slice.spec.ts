@@ -1,9 +1,9 @@
-import areaReducer, { FieldState, tick, turnDown, turnLeft, turnRight, turnUp } from './fieldSlice';
+import areaReducer, { FieldState, tickField, turnDown, turnLeft, turnRight, turnUp } from './field-slice';
 import { Area } from '../../../models/area';
 import { CellDirection } from '../../../models/cell-direction';
 import { Snake } from '../../../models/snake';
 
-describe('counter reducer', () => {
+describe('field reducer', () => {
     test('should handle initial state', () => {
         const reducer = areaReducer(undefined, { type: 'unknown' });
 
@@ -51,7 +51,7 @@ describe('counter reducer', () => {
             area: new Area(11, 11 ),
         };
 
-        const actual = areaReducer(initialState, tick());
+        const actual = areaReducer(initialState, tickField());
         expect(actual.area.snakePosition).toStrictEqual([5, 4]);
     });
 });

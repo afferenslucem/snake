@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../app/hooks';
 import classNames from 'classnames';
-import { selectIsFoodCell, selectIsSnakeCell } from '../Field/fieldSlice';
+import { selectIsFoodCell, selectIsSnakeCell } from '../Field/field-slice';
 
 interface Props {
     rowIndex: number;

@@ -1,10 +1,15 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import areaReducer from '../components/Area/Field/fieldSlice';
+import areaReducer from '../components/Area/Field/field-slice';
+import gameReducer from '../components/Area/Field/game-slice';
 
 export const store = configureStore({
   reducer: {
     field: areaReducer,
+    game: gameReducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: false,
+  })
 });
 
 export type AppDispatch = typeof store.dispatch;
