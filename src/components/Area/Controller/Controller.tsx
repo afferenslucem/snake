@@ -2,7 +2,6 @@ import React from 'react';
 import './Controller.scss';
 import classNames from 'classnames';
 import { fromEvent, merge } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 interface State {
     x: number;
@@ -42,7 +41,7 @@ export default class Controller extends React.Component<Props, State> {
         merge(
             fromEvent(document, 'mousemove'),
             fromEvent(document, 'touchmove'),
-        ).pipe(debounceTime(100)).subscribe((e) => this.onMouseMove(e as any));
+        ).subscribe((e) => this.onMouseMove(e as any));
     }
 
     public onMouseDown(e: any) {
