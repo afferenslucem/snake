@@ -6,19 +6,21 @@ export class Snake {
 
     public constructor();
     public constructor(body: CellDirection[]);
-    public constructor(body: CellDirection[], nextDirection: CellDirection);
-    public constructor(body: CellDirection[] = [CellDirection.Up], nextDirection?: CellDirection) {
+    public constructor(body: CellDirection[], nextDirection: CellDirection, previousTail: CellDirection);
+    public constructor(body: CellDirection[] = [CellDirection.Up], nextDirection?: CellDirection, previousTail?: CellDirection) {
         this.body = body;
         this.nextDirection = nextDirection || this.headDirection;
+        this.previousTail = this.body.length === 1 ? this.headDirection : previousTail;
     }
 
     public readonly nextDirection: CellDirection;
+    public readonly previousTail: CellDirection;
 
     public get headDirection(): CellDirection {
         return _(this.body).first();
     }
 
-    public get last(): CellDirection {
+    public get tailDirection(): CellDirection {
         return _(this.body).last();
     }
 
@@ -59,14 +61,14 @@ export class Snake {
     }
 
     public grow(): Snake {
-        const newBody = _(this.body).append(this.last).toArray();
+        const newBody = _(this.body).append(this.previousTail).toArray();
         return new Snake(newBody);
     }
 
     public move(): Snake {
         const turnedHead = this.turnHead()
         const newBody = this.makeStep(turnedHead).toArray();
-        return new Snake(newBody);
+        return new Snake(newBody, undefined, this.tailDirection);
     }
 
     private turnHead(): ISequence<CellDirection> {
@@ -78,6 +80,6 @@ export class Snake {
     }
 
     private turnSnake(direction: CellDirection): Snake {
-        return new Snake(this.body, direction);
+        return new Snake(this.body, direction, this.previousTail);
     }
 }

@@ -203,7 +203,7 @@ describe('Snake', () => {
         test('last', () => {
             const snake = new Snake([CellDirection.Up, CellDirection.Left]);
 
-            const result = snake.last;
+            const result = snake.tailDirection;
             const expected = CellDirection.Left;
 
             expect(result).toBe(expected);
