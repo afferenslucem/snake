@@ -278,9 +278,35 @@ describe('Area', () => {
 
             const result = area.turnRight();
 
-            expect(result.snake.head).toBe(CellDirection.Right);
+            expect(result.snake.nextDirection).toBe(CellDirection.Right);
             expect(result.snake.body.length).toBe(1);
             expect(result.snakePosition).toStrictEqual(area.snakePosition);
+        });
+
+        test('turn right and move', () => {
+            const snake = new Snake([CellDirection.Up,]);
+            const area = new Area(21, 21, { snake, snakePosition: [10, 10] });
+
+            const result = area.turnRight().tick();
+
+            expect(result.snake.headDirection).toBe(CellDirection.Right);
+            expect(result.snake.nextDirection).toBe(CellDirection.Right);
+        });
+
+        test('should not eat itself', () => {
+            const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Up, CellDirection.Up, CellDirection.Up,]);
+            const area = new Area(21, 21, { snake, snakePosition: [10, 10] });
+
+            area.turnRight().turnDown().tick();
+        });
+
+        test('should turn down for 1 sections length', () => {
+            const snake = new Snake([CellDirection.Up]);
+            const area = new Area(21, 21, { snake, snakePosition: [10, 10] });
+
+            const result = area.turnDown().tick();
+
+            expect(result.snakePosition).toStrictEqual([10, 11]);
         });
     });
 });

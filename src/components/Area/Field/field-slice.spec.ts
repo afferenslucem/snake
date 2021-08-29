@@ -16,7 +16,7 @@ describe('field reducer', () => {
         };
 
         const actual = areaReducer(initialState, turnUp());
-        expect(actual.area.snake.head).toEqual(CellDirection.Up);
+        expect(actual.area.snake.nextDirection).toEqual(CellDirection.Up);
     });
 
     test('should handle turnRight', () => {
@@ -25,7 +25,7 @@ describe('field reducer', () => {
         };
 
         const actual = areaReducer(initialState, turnRight());
-        expect(actual.area.snake.head).toEqual(CellDirection.Right);
+        expect(actual.area.snake.nextDirection).toEqual(CellDirection.Right);
     });
 
     test('should handle turnDown', () => {
@@ -34,7 +34,7 @@ describe('field reducer', () => {
         };
 
         const actual = areaReducer(initialState, turnDown());
-        expect(actual.area.snake.head).toEqual(CellDirection.Down);
+        expect(actual.area.snake.nextDirection).toEqual(CellDirection.Down);
     });
 
     test('should handle turnLeft', () => {
@@ -43,7 +43,7 @@ describe('field reducer', () => {
         };
 
         const actual = areaReducer(initialState, turnLeft());
-        expect(actual.area.snake.head).toEqual(CellDirection.Left);
+        expect(actual.area.snake.nextDirection).toEqual(CellDirection.Left);
     });
 
     test('should handle tick', () => {

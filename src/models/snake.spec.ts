@@ -28,26 +28,39 @@ describe('Snake', () => {
             test('for one section body', () => {
                 const snake = new Snake([CellDirection.Left]);
 
-                const result = snake.up().body;
-                const expected = [CellDirection.Up];
+                const result = snake.up();
+                const expectedBody = [CellDirection.Left];
+                const expectedNextDirection = CellDirection.Up;
 
-                expect(result).toStrictEqual(expected)
+                expect(result.body).toStrictEqual(expectedBody)
+                expect(result.nextDirection).toStrictEqual(expectedNextDirection)
             });
 
             test('for long body', () => {
                 const snake = new Snake([CellDirection.Left, CellDirection.Left, CellDirection.Down]);
 
-                const result = snake.up().body;
-                const expected = [CellDirection.Up, CellDirection.Left, CellDirection.Down];
+                const result = snake.up();
+                const expectedNextDirection = CellDirection.Up;
+                const expectedBody = [CellDirection.Left, CellDirection.Left, CellDirection.Down];
+
+                expect(result.body).toStrictEqual(expectedBody)
+                expect(result.nextDirection).toStrictEqual(expectedNextDirection)
+            });
+
+            test('should pass against direction for long body', () => {
+                const snake = new Snake([CellDirection.Down, CellDirection.Left, CellDirection.Left]);
+
+                const result = snake.up().nextDirection;
+                const expected = CellDirection.Down;
 
                 expect(result).toStrictEqual(expected)
             });
 
-            test('should pass against direction', () => {
-                const snake = new Snake([CellDirection.Down, CellDirection.Left, CellDirection.Left]);
+            test('should turn for against direction for 1 section body', () => {
+                const snake = new Snake([CellDirection.Down]);
 
-                const result = snake.up().body;
-                const expected = [CellDirection.Down, CellDirection.Left, CellDirection.Left];
+                const result = snake.up().nextDirection;
+                const expected = CellDirection.Up;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -55,8 +68,8 @@ describe('Snake', () => {
             test('should pass same direction', () => {
                 const snake = new Snake([CellDirection.Up, CellDirection.Left, CellDirection.Down]);
 
-                const result = snake.up().body;
-                const expected = [CellDirection.Up, CellDirection.Left, CellDirection.Down];
+                const result = snake.up().nextDirection;
+                const expected = CellDirection.Up;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -66,26 +79,26 @@ describe('Snake', () => {
             test('for one section body', () => {
                 const snake = new Snake([CellDirection.Up]);
 
-                const result = snake.right().body;
-                const expected = [CellDirection.Right];
+                const result = snake.right().nextDirection;
+                const expected = CellDirection.Right;
 
                 expect(result).toStrictEqual(expected)
             });
 
-            test('for long body', () => {
-                const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Left]);
-
-                const result = snake.right().body;
-                const expected = [CellDirection.Right, CellDirection.Up, CellDirection.Left];
-
-                expect(result).toStrictEqual(expected)
-            });
-
-            test('should pass against direction', () => {
+            test('should pass against direction for long body', () => {
                 const snake = new Snake([CellDirection.Left, CellDirection.Up, CellDirection.Left]);
 
-                const result = snake.right().body;
-                const expected = [CellDirection.Left, CellDirection.Up, CellDirection.Left];
+                const result = snake.right().nextDirection;
+                const expected = CellDirection.Left;
+
+                expect(result).toStrictEqual(expected)
+            });
+
+            test('should turn to against direction for 1 section body', () => {
+                const snake = new Snake([CellDirection.Left]);
+
+                const result = snake.right().nextDirection;
+                const expected = CellDirection.Right;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -93,8 +106,8 @@ describe('Snake', () => {
             test('should pass same direction', () => {
                 const snake = new Snake([CellDirection.Right, CellDirection.Up, CellDirection.Left]);
 
-                const result = snake.right().body;
-                const expected = [CellDirection.Right, CellDirection.Up, CellDirection.Left];
+                const result = snake.right().nextDirection;
+                const expected = CellDirection.Right;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -104,26 +117,26 @@ describe('Snake', () => {
             test('for one section body', () => {
                 const snake = new Snake([CellDirection.Right]);
 
-                const result = snake.down().body;
-                const expected = [CellDirection.Down];
+                const result = snake.down().nextDirection;
+                const expected = CellDirection.Down;
 
                 expect(result).toStrictEqual(expected)
             });
 
-            test('for long body', () => {
-                const snake = new Snake([CellDirection.Right, CellDirection.Right, CellDirection.Up]);
-
-                const result = snake.down().body;
-                const expected = [CellDirection.Down, CellDirection.Right, CellDirection.Up];
-
-                expect(result).toStrictEqual(expected)
-            });
-
-            test('should pass against direction', () => {
+            test('should pass against direction for long body', () => {
                 const snake = new Snake([CellDirection.Up, CellDirection.Right, CellDirection.Right]);
 
-                const result = snake.down().body;
-                const expected = [CellDirection.Up, CellDirection.Right, CellDirection.Right];
+                const result = snake.down().nextDirection;
+                const expected = CellDirection.Up;
+
+                expect(result).toStrictEqual(expected)
+            });
+
+            test('should turn to against direction for 1 section body', () => {
+                const snake = new Snake([CellDirection.Up]);
+
+                const result = snake.down().nextDirection;
+                const expected = CellDirection.Down;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -142,26 +155,26 @@ describe('Snake', () => {
             test('for one section body', () => {
                 const snake = new Snake([CellDirection.Down]);
 
-                const result = snake.left().body;
-                const expected = [CellDirection.Left];
+                const result = snake.left().nextDirection;
+                const expected = CellDirection.Left;
 
                 expect(result).toStrictEqual(expected)
             });
 
-            test('for long body', () => {
-                const snake = new Snake([CellDirection.Up, CellDirection.Up, CellDirection.Right]);
-
-                const result = snake.left().body;
-                const expected = [CellDirection.Left, CellDirection.Up, CellDirection.Right];
-
-                expect(result).toStrictEqual(expected)
-            });
-
-            test('should pass against direction', () => {
+            test('should pass against direction for long body', () => {
                 const snake = new Snake([CellDirection.Right, CellDirection.Up, CellDirection.Right]);
 
-                const result = snake.left().body;
-                const expected = [CellDirection.Right, CellDirection.Up, CellDirection.Right];
+                const result = snake.left().nextDirection;
+                const expected = CellDirection.Right;
+
+                expect(result).toStrictEqual(expected)
+            });
+
+            test('should turn to against direction for 1 section body', () => {
+                const snake = new Snake([CellDirection.Right]);
+
+                const result = snake.left().nextDirection;
+                const expected = CellDirection.Left;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -169,8 +182,8 @@ describe('Snake', () => {
             test('should pass same direction', () => {
                 const snake = new Snake([CellDirection.Left, CellDirection.Right, CellDirection.Right]);
 
-                const result = snake.left().body;
-                const expected = [CellDirection.Left, CellDirection.Right, CellDirection.Right];
+                const result = snake.left().nextDirection;
+                const expected = CellDirection.Left;
 
                 expect(result).toStrictEqual(expected)
             });
@@ -181,7 +194,7 @@ describe('Snake', () => {
         test('head', () => {
             const snake = new Snake([CellDirection.Up, CellDirection.Left]);
 
-            const result = snake.head;
+            const result = snake.headDirection;
             const expected = CellDirection.Up;
 
             expect(result).toBe(expected);
