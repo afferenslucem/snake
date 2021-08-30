@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import Field from './components/Area/Field/field';
 import { useAppSelector } from './app/hooks';
-import Controller from './components/Area/Controller/Controller';
+import Controller from './components/Controller/Controller';
 import { selectGameOvered, selectGameStarted } from './components/Area/Field/game-slice';
 import { GameRunner } from './utils/game-runner';
 import { SnakeController } from './utils/snake-controller';
+import Score from './components/Score/Score';
 
 const gameRunner = new GameRunner();
 const controller = new SnakeController();
@@ -18,14 +19,18 @@ function App() {
     const gameOver = useAppSelector(selectGameOvered);
     return (
         <div className="App">
-            <Field/>
+            <div className="app-game-place">
+                <Field/>
+                {
+                    started ? <Score/> : null
+                }
+            </div>
             {
                 !started ? (
                     <button
                         className="start-game"
                         onClick={() => {
-                            gameRunner.init();
-                            gameRunner.run();
+                            gameRunner.startGame();
                         }}
                     >
                         Start

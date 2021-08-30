@@ -62,7 +62,7 @@ export class Snake {
 
     public grow(): Snake {
         const newBody = _(this.body).append(this.previousTail).toArray();
-        return new Snake(newBody);
+        return new Snake(newBody, null, this.previousTail);
     }
 
     public move(): Snake {

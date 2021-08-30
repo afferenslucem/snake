@@ -41,6 +41,6 @@ export const selectGameStarted = (state: RootState) => state.game.started;
 
 export const selectGameOvered = (state: RootState) => state.game.gameOver;
 
-export const selectSpeed = (state: RootState) => state.game.started;
+export const selectSpeed = (state: RootState) => state.game.speed;
 
 export default gameSlice.reducer;

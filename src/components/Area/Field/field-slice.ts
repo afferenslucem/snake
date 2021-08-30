@@ -49,6 +49,11 @@ export const selectIsSnakeCell = createSelector(
     (area: Area) => (position: [number, number]) => area.isSnakeCell(position)
 );
 
+export const selectSnakeLength = createSelector(
+    selectArea,
+    (area: Area) => area.snake.body.length,
+);
+
 export const selectIsFoodCell = createSelector(
     selectArea,
     (area: Area) => (position: [number, number]) => area.isFoodCell(position)

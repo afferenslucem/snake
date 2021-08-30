@@ -297,7 +297,7 @@ describe('Snake', () => {
        });
 
         test('for long body', () => {
-            const snake = new Snake([CellDirection.Left, CellDirection.Up, CellDirection.Right]);
+            const snake = new Snake([CellDirection.Left, CellDirection.Up, CellDirection.Right], null, CellDirection.Right);
 
             const result = snake.grow().body;
             const expected = [CellDirection.Left, CellDirection.Up, CellDirection.Right, CellDirection.Right];

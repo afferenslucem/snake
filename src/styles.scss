@@ -27,6 +27,31 @@ body * + * {
     margin: 1rem 0;
   }
 
+  .app-score {
+    display: flex;
+
+    * {
+      flex: 1 0 0;
+
+      margin-top: 0;
+    }
+
+    > * {
+      border: 1px black solid;
+      display: flex;
+      flex-flow: column;
+    }
+
+    > *:nth-child(n + 2) {
+      border-left: none;
+    }
+
+    label {
+      border-bottom: 1px solid black;
+    }
+  }
+
+
   .start-game {
     align-self: stretch;
     padding: 0.5rem;
